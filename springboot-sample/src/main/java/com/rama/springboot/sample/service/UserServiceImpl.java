@@ -1,7 +1,10 @@
 package com.rama.springboot.sample.service;
 
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,6 +42,7 @@ public class UserServiceImpl implements UserService {
 		userResponse.setFirstName(userRequest.getFirstName());
 		userResponse.setLastName(userRequest.getLastName());
 		userResponse.setEmail(userRequest.getEmail());
+		userResponse.setUserDate(Calendar.getInstance());
 		
 		String userId = util.generateUserId();
 		userResponse.setUserId(userId);
@@ -73,6 +77,15 @@ public class UserServiceImpl implements UserService {
 			return false;
 		}
 		
+	}
+
+	@Override
+	public List<UserResponse> getUsers() {
+		
+		List<UserResponse> userList = userDB.values().stream()
+				.collect(Collectors.toList());
+		
+		return userList;
 	}
 
 }
